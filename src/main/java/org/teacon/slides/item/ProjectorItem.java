@@ -14,10 +14,11 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.teacon.slides.ModRegistries;
 import org.teacon.slides.block.ProjectorBlock;
 import org.teacon.slides.block.ProjectorBlockEntity;
 import org.teacon.slides.inventory.ProjectorContainerMenu;
+import org.teacon.slides.registry.BlockRegistry;
+import org.teacon.slides.registry.ItemRegistry;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,10 +29,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class ProjectorItem extends BlockItem {
 
     public ProjectorItem() {
-        super(ModRegistries.PROJECTOR_BLOCK.get(), new Item.Properties().rarity(Rarity.RARE)
+        super(BlockRegistry.PROJECTOR_BLOCK.get(), new Item.Properties().rarity(Rarity.RARE)
                 .component(DataComponents.CONTAINER, Util.make(() -> {
                     var list = NonNullList.withSize(ProjectorBlock.SLIDE_ITEM_HANDLER_CAPACITY * 2, ItemStack.EMPTY);
-                    list.set(0, ModRegistries.SLIDE_ITEM.get().getDefaultInstance());
+                    list.set(0, ItemRegistry.SLIDE_ITEM.get().getDefaultInstance());
                     return ItemContainerContents.fromItems(list);
                 })));
     }

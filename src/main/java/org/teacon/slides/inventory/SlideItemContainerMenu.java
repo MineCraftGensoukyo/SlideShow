@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import org.teacon.slides.ModRegistries;
 import org.teacon.slides.network.SlideItemUpdatePacket;
+import org.teacon.slides.registry.ItemRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -42,6 +43,6 @@ public final class SlideItemContainerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return player.getInventory().getItem(this.packet.slotId()).is(ModRegistries.SLIDE_ITEM);
+        return player.getInventory().getItem(this.packet.slotId()).is(ItemRegistry.SLIDE_ITEM);
     }
 }

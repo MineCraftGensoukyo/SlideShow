@@ -11,6 +11,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.teacon.slides.item.SlideItem;
+import org.teacon.slides.registry.BlockEntityRegistry;
+import org.teacon.slides.registry.ItemRegistry;
 import org.teacon.slides.renderer.ProjectorRenderer;
 import org.teacon.slides.renderer.SlideState;
 import org.teacon.slides.screen.ProjectorScreen;
@@ -48,7 +50,7 @@ public final class ModClientRegistries {
         SlideShow.setApplyPrefetch(SlideState::applyPrefetch);
         SlideShow.setFetchSlideRecommendedName(Functions.compose(Slide::getRecommendedName, SlideState::getSlide));
         event.enqueueWork(() -> {
-            var slideItem = ModRegistries.SLIDE_ITEM.get();
+            var slideItem = ItemRegistry.SLIDE_ITEM.get();
             ItemProperties.register(slideItem, SlideShow.id("url_status"), (stack, level, entity, seed) -> {
                 var uuid = stack.getOrDefault(ModRegistries.SLIDE_ENTRY, SlideItem.ENTRY_DEF).id();
                 var status = SlideShow.checkBlock(uuid);
@@ -59,7 +61,7 @@ public final class ModClientRegistries {
 
     @SubscribeEvent
     public static void registerRenders(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(ModRegistries.PROJECTOR_BLOCK_ENTITY.get(), ProjectorRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.PROJECTOR_BLOCK_ENTITY.get(), ProjectorRenderer::new);
     }
 
     /*@SubscribeEvent

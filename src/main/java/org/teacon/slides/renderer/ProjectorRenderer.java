@@ -16,10 +16,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import org.joml.Vector2d;
-import org.teacon.slides.ModRegistries;
 import org.teacon.slides.block.ProjectorBlock;
 import org.teacon.slides.block.ProjectorBlockEntity;
 import org.teacon.slides.item.SlideItem;
+import org.teacon.slides.registry.BlockRegistry;
 import org.teacon.slides.slide.IconSlide;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -112,7 +112,7 @@ public final class ProjectorRenderer implements BlockEntityRenderer<ProjectorBlo
             var mc = Minecraft.getInstance();
             var handItems = mc.player == null ? List.of(Items.AIR, Items.AIR) :
                     List.of(mc.player.getMainHandItem().getItem(), mc.player.getOffhandItem().getItem());
-            if (handItems.contains(ModRegistries.PROJECTOR_BLOCK.get().asItem())) {
+            if (handItems.contains(BlockRegistry.PROJECTOR_BLOCK.get().asItem())) {
                 var outline = RenderType.outline(InventoryMenu.BLOCK_ATLAS);
                 var outlineSource = mc.renderBuffers().outlineBufferSource();
                 var blockModel = this.blockRenderDispatcher.getBlockModel(tileState);

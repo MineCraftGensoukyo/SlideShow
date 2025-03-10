@@ -4,11 +4,16 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.FieldsAreNonnullByDefault;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.teacon.slides.block.ProjectorBlockEntity;
+import org.teacon.slides.registry.BlockEntityRegistry;
+import org.teacon.slides.registry.BlockRegistry;
+import org.teacon.slides.registry.ItemRegistry;
 import org.teacon.slides.url.ProjectorURL;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -27,6 +32,12 @@ import java.util.function.Function;
 public final class SlideShow {
     public static final String ID = "slide_show"; // as well as the namespace
     public static final Logger LOGGER = LogManager.getLogger("SlideShow");
+
+    public SlideShow(IEventBus modEventBus, ModContainer modContainer) {
+        ItemRegistry.ITEMS.register(modEventBus);
+        BlockRegistry.BLOCKS.register(modEventBus);
+        BlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modEventBus);
+    }
 
     private static volatile Consumer<ProjectorBlockEntity> requestUrlPrefetch = Objects::hash;
     private static volatile BiConsumer<Set<UUID>, Map<UUID, ProjectorURL>> applyPrefetch = Objects::hash;

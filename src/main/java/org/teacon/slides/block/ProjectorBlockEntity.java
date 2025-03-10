@@ -40,6 +40,9 @@ import org.teacon.slides.admin.SlidePermission;
 import org.teacon.slides.calc.CalcMicros;
 import org.teacon.slides.inventory.ProjectorContainerMenu;
 import org.teacon.slides.item.SlideItem;
+import org.teacon.slides.registry.BlockEntityRegistry;
+import org.teacon.slides.registry.BlockRegistry;
+import org.teacon.slides.registry.ItemRegistry;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -58,7 +61,7 @@ public final class ProjectorBlockEntity extends BlockEntity implements MenuProvi
 
     public static BlockEntityType<?> create() {
         return new BlockEntityType<>(ProjectorBlockEntity::new,
-                Set.of(ModRegistries.PROJECTOR_BLOCK.get()), DSL.remainderType());
+                Set.of(BlockRegistry.PROJECTOR_BLOCK.get()), DSL.remainderType());
     }
 
     private final Vector2i mSizeMicros = new Vector2i(1_000_000);
@@ -69,8 +72,8 @@ public final class ProjectorBlockEntity extends BlockEntity implements MenuProvi
     private final SlideItemStackHandler mItemsDisplayed;
     private final MutablePair<Optional<SlideItem.Entry>, Optional<SlideItem.Entry>> mNextCurrentEntries;
 
-    private ProjectorBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(ModRegistries.PROJECTOR_BLOCK_ENTITY.get(), blockPos, blockState);
+    public ProjectorBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(BlockEntityRegistry.PROJECTOR_BLOCK_ENTITY.get(), blockPos, blockState);
         mNextCurrentEntries = MutablePair.ofNonNull(Optional.empty(), Optional.empty());
         mItemsToDisplay = new SlideItemStackHandler(this::onItemsToDisplayErased, this::onItemsToDisplayChanged);
         mItemsDisplayed = new SlideItemStackHandler(this::onItemsDisplayedErased, this::onItemsDisplayedChanged);
@@ -95,7 +98,7 @@ public final class ProjectorBlockEntity extends BlockEntity implements MenuProvi
     @Override
     public boolean hasCustomOutlineRendering(Player player) {
         var handItems = List.of(player.getMainHandItem().getItem(), player.getOffhandItem().getItem());
-        return handItems.contains(ModRegistries.PROJECTOR_BLOCK.get().asItem());
+        return handItems.contains(BlockRegistry.PROJECTOR_BLOCK.get().asItem());
     }
 
     @Override
@@ -183,7 +186,7 @@ public final class ProjectorBlockEntity extends BlockEntity implements MenuProvi
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         this.loadCommon(tag);
         if (tag.hasUUID("ImageLocation")) {
-            var item = ModRegistries.SLIDE_ITEM.get().getDefaultInstance();
+            var item = ItemRegistry.SLIDE_ITEM.get().getDefaultInstance();
             var size = tag.getBoolean("KeepAspectRatio") ? SlideItem.KeywordSize.CONTAIN : SlideItem.Size.DEFAULT;
             item.set(ModRegistries.SLIDE_ENTRY, new SlideItem.Entry(tag.getUUID("ImageLocation"), size));
             for (var i = 0; i < ProjectorBlock.SLIDE_ITEM_HANDLER_CAPACITY; ++i) {

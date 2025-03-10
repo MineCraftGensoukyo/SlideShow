@@ -31,8 +31,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector4d;
-import org.teacon.slides.ModRegistries;
 import org.teacon.slides.inventory.ProjectorContainerMenu;
+import org.teacon.slides.registry.BlockEntityRegistry;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
@@ -188,7 +188,7 @@ public final class ProjectorBlock extends Block implements EntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return Objects.requireNonNull(ModRegistries.PROJECTOR_BLOCK_ENTITY.get().create(blockPos, blockState));
+        return Objects.requireNonNull(BlockEntityRegistry.PROJECTOR_BLOCK_ENTITY.get().create(blockPos, blockState));
     }
 
     @Override

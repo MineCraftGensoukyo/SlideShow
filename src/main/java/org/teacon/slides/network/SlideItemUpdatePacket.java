@@ -16,6 +16,7 @@ import org.teacon.slides.ModRegistries;
 import org.teacon.slides.SlideShow;
 import org.teacon.slides.admin.SlidePermission;
 import org.teacon.slides.item.SlideItem;
+import org.teacon.slides.registry.ItemRegistry;
 import org.teacon.slides.url.ProjectorURL;
 import org.teacon.slides.url.ProjectorURLSavedData;
 import org.teacon.slides.url.ProjectorURLSavedData.Log;
@@ -50,7 +51,7 @@ public record SlideItemUpdatePacket(int slotId, Perm permissions,
             if (context.player() instanceof ServerPlayer player && SlidePermission.canInteractEditSlide(player)) {
                 var data = ProjectorURLSavedData.get(player.server);
                 var item = player.getInventory().getItem(this.slotId);
-                if (item.is(ModRegistries.SLIDE_ITEM)) {
+                if (item.is(ItemRegistry.SLIDE_ITEM)) {
                     var newEntry = new SlideItem.Entry(this.imgUniqueId, this.size);
                     var oldEntry = item.getOrDefault(ModRegistries.SLIDE_ENTRY, SlideItem.ENTRY_DEF);
                     if (data.getUrlById(newEntry.id()).isEmpty() && this.url.isPresent()) {
