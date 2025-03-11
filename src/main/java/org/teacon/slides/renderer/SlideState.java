@@ -13,6 +13,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -184,7 +185,7 @@ public final class SlideState {
         existent.values().forEach(v -> sCache.getAcquire().computeIfAbsent(v, SlideState::new));
     }
 
-    public static void prefetch(ProjectorBlockEntity blockEntity) {
+    public static void prefetch(BlockEntity blockEntity) {
         sBlockPending.add(blockEntity.getBlockPos());
     }
 

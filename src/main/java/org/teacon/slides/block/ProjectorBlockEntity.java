@@ -82,6 +82,7 @@ public final class ProjectorBlockEntity extends BlockEntity implements MenuProvi
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, Inventory inventory, Player currentPlayer) {
         if (currentPlayer instanceof ServerPlayer player) {
+            if (!player.isCreative()) return null;
             var canInteract = SlidePermission.canInteract(player);
             if (canInteract) {
                 return new ProjectorContainerMenu(id, player.getInventory(), this);

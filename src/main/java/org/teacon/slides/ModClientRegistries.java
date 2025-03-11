@@ -13,6 +13,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.teacon.slides.item.SlideItem;
 import org.teacon.slides.registry.BlockEntityRegistry;
 import org.teacon.slides.registry.ItemRegistry;
+import org.teacon.slides.renderer.PictureRender;
 import org.teacon.slides.renderer.ProjectorRenderer;
 import org.teacon.slides.renderer.SlideState;
 import org.teacon.slides.screen.ProjectorScreen;
@@ -62,6 +63,7 @@ public final class ModClientRegistries {
     @SubscribeEvent
     public static void registerRenders(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(BlockEntityRegistry.PROJECTOR_BLOCK_ENTITY.get(), ProjectorRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntityRegistry.PICTURE_BLOCK_ENTITY.get(), PictureRender::new);
     }
 
     /*@SubscribeEvent

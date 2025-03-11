@@ -1,0 +1,30 @@
+{
+    "variants": {
+        "facing=down": {
+            "model": "slide_show:block/picture",
+            "x": 180
+        },
+        "facing=east": {
+            "model": "slide_show:block/picture",
+            "x": 90,
+            "y": 90
+        },
+        "facing=north": {
+            "model": "slide_show:block/picture",
+            "x": 90
+        },
+        "facing=south": {
+            "model": "slide_show:block/picture",
+            "x": 90,
+            "y": 180
+        },
+        "facing=up": {
+            "model": "slide_show:block/picture"
+        },
+        "facing=west": {
+            "model": "slide_show:block/picture",
+            "x": 90,
+            "y": 270
+        }
+    }
+}

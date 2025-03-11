@@ -1,8 +1,6 @@
 package org.teacon.slides.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.FieldsAreNonnullByDefault;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,12 +20,8 @@ import org.teacon.slides.item.SlideItem;
 import org.teacon.slides.registry.BlockRegistry;
 import org.teacon.slides.slide.IconSlide;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-@FieldsAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public final class ProjectorRenderer implements BlockEntityRenderer<ProjectorBlockEntity> {
     private final BlockRenderDispatcher blockRenderDispatcher;
 

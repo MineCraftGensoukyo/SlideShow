@@ -4,6 +4,7 @@
 
     "item.slide_show.slide_item": "幻灯片",
     "block.slide_show.projector": "幻灯片投影仪",
+    "block.slide_show.picture": "图片框",
     "item.slide_show.slide_item.hint": "放在手上并使用右键可编辑该幻灯片的 URL 等相关信息",
 
     "command.slide_show.scroll_up.success": "已成功向上滚动 %s 个幻灯片",

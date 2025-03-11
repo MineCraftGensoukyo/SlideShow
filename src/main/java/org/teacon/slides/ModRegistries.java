@@ -83,6 +83,7 @@ public final class ModRegistries {
         pr.playToClient(SlideURLPrefetchPacket.TYPE, SlideURLPrefetchPacket.CODEC, SlideURLPrefetchPacket::handle);
         pr.playToServer(SlideURLRequestPacket.TYPE, SlideURLRequestPacket.CODEC, SlideURLRequestPacket::handle);
         pr.commonToClient(SlideSummaryPacket.TYPE, SlideSummaryPacket.CODEC, SlideSummaryPacket::handle);
+        pr.playToServer(PictureUpdatePacket.TYPE, PictureUpdatePacket.STREAM_CODEC, PictureUpdatePacket::handle);
         SlideShow.LOGGER.info("Registered related network packages (version {})", NETWORK_VERSION);
     }
 
@@ -98,6 +99,7 @@ public final class ModRegistries {
         if (tabKey.isPresent() && CreativeModeTabs.TOOLS_AND_UTILITIES.equals(tabKey.get())) {
             event.accept(SLIDE_ITEM.get());
             event.accept(PROJECTOR_ITEM.get());
+            event.accept(PICTURE_ITEM.get());
         }
     }
 

@@ -35,7 +35,7 @@ public final class SlideItemScreen extends AbstractContainerScreen<SlideItemCont
             GUI_WIDTH = 512,
             GUI_HEIGHT = 384;
 
-    private static final Component
+    public static final Component
             IMAGE_TEXT = Component.translatable("gui.slide_show.section.image"),
             URL_TEXT = Component.translatable("gui.slide_show.url"),
             SIZE_TEXT = Component.translatable("gui.slide_show.size"),
@@ -62,7 +62,7 @@ public final class SlideItemScreen extends AbstractContainerScreen<SlideItemCont
             SIZE_HINT_8 = Component.translatable("gui.slide_show.size_hint.both")
                     .withStyle(ChatFormatting.GRAY);
 
-    private static final int
+    public static final int
             URL_MAX_LENGTH = 1 << 9,
             SIZE_MAX_LENGTH = 1 << 9;
 

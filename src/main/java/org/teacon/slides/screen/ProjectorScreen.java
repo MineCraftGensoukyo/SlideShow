@@ -40,11 +40,11 @@ public final class ProjectorScreen extends AbstractContainerScreen<ProjectorCont
     private static final ResourceLocation
             GUI_TEXTURE = SlideShow.id("textures/gui/projector_gui.png");
 
-    private static final int
+    public static final int
             GUI_WIDTH = 512, GUI_HEIGHT = 384,
             COLOR_MAX_LENGTH = 8, VALID_TEXT_COLOR = 0xE0E0E0, INVALID_TEXT_COLOR = 0xE04B4B;
 
-    private static final Component
+    public static final Component
             SIZE_TEXT = Component.translatable("gui.slide_show.section.size"),
             OFFSET_TEXT = Component.translatable("gui.slide_show.section.offset"),
             OTHERS_FIRST_TEXT = Component.translatable("gui.slide_show.section.others.first"),

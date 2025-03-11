@@ -1,5 +1,6 @@
 package org.teacon.slides.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.FieldsAreNonnullByDefault;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -17,13 +18,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -46,12 +45,14 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class ProjectorBlock extends Block implements EntityBlock {
+public final class ProjectorBlock extends BaseEntityBlock {
 
+    public static final MapCodec<ProjectorBlock> CODEC = simpleCodec((properties) -> new ProjectorBlock());
     public static final EnumProperty<InternalRotation>
             ROTATION = EnumProperty.create("rotation", InternalRotation.class);
     public static final EnumProperty<Direction>
             BASE = EnumProperty.create("base", Direction.class, Direction.Plane.VERTICAL);
+    public static final BooleanProperty SHAPE = BooleanProperty.create("shape");
     public static final int
             SLIDE_ITEM_HANDLER_CAPACITY = 12 * 6;
 
@@ -69,7 +70,8 @@ public final class ProjectorBlock extends Block implements EntityBlock {
                 .setValue(BASE, Direction.DOWN)
                 .setValue(FACING, Direction.EAST)
                 .setValue(POWERED, Boolean.FALSE)
-                .setValue(ROTATION, InternalRotation.NONE));
+                .setValue(ROTATION, InternalRotation.NONE)
+                .setValue(SHAPE, true));
     }
 
     @Override
@@ -86,7 +88,7 @@ public final class ProjectorBlock extends Block implements EntityBlock {
 
     @Override
     protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        builder.add(BASE, FACING, POWERED, ROTATION);
+        builder.add(BASE, FACING, POWERED, ROTATION, SHAPE);
     }
 
     @Override
@@ -103,7 +105,8 @@ public final class ProjectorBlock extends Block implements EntityBlock {
                 .setValue(BASE, base)
                 .setValue(FACING, facing)
                 .setValue(POWERED, Boolean.FALSE)
-                .setValue(ROTATION, rotation);
+                .setValue(ROTATION, rotation)
+                .setValue(SHAPE, true);
     }
 
     @Override
@@ -127,6 +130,11 @@ public final class ProjectorBlock extends Block implements EntityBlock {
                 }
             }
         }
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return state.getValue(SHAPE) ? RenderShape.MODEL : RenderShape.INVISIBLE;
     }
 
     @Override
@@ -202,6 +210,11 @@ public final class ProjectorBlock extends Block implements EntityBlock {
             ProjectorContainerMenu.openGui(player, tile);
         }
         return ItemInteractionResult.CONSUME;
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public enum InternalRotation implements StringRepresentable {
