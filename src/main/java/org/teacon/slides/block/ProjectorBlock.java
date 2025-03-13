@@ -93,7 +93,7 @@ public final class ProjectorBlock extends BaseEntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        var facing = context.getNearestLookingDirection().getOpposite();
+        var facing = context.getNearestLookingDirection();
         var horizontalFacing = context.getHorizontalDirection().getOpposite();
         var base = Arrays.stream(context.getNearestLookingDirections())
                 .filter(Direction.Plane.VERTICAL)
@@ -106,7 +106,7 @@ public final class ProjectorBlock extends BaseEntityBlock {
                 .setValue(FACING, facing)
                 .setValue(POWERED, Boolean.FALSE)
                 .setValue(ROTATION, rotation)
-                .setValue(SHAPE, true);
+                .setValue(SHAPE, false);
     }
 
     @Override
