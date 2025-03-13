@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.teacon.slides.registry.BlockEntityRegistry;
 import org.teacon.slides.registry.BlockRegistry;
+import org.teacon.slides.registry.CreativeTabRegistry;
 import org.teacon.slides.registry.ItemRegistry;
 import org.teacon.slides.url.ProjectorURL;
 
@@ -40,6 +41,7 @@ public final class SlideShow {
         ItemRegistry.ITEMS.register(modEventBus);
         BlockRegistry.BLOCKS.register(modEventBus);
         BlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modEventBus);
+        CreativeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
     }
 
     public static void setRequestUrlPrefetch(Consumer<BlockEntity> requestUrlPrefetch) {

@@ -8,13 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -28,8 +26,7 @@ import org.teacon.slides.url.ProjectorURLPatternArgument;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static org.teacon.slides.registry.BlockEntityRegistry.*;
-import static org.teacon.slides.registry.ItemRegistry.*;
+import static org.teacon.slides.registry.BlockEntityRegistry.PROJECTOR_BLOCK_ENTITY;
 
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -92,15 +89,4 @@ public final class ModRegistries {
         var blockItemHandler = Capabilities.ItemHandler.BLOCK;
         event.registerBlockEntity(blockItemHandler, PROJECTOR_BLOCK_ENTITY.get(), ProjectorBlockEntity::getCapability);
     }
-
-    @SubscribeEvent
-    public static void onBuildContents(final BuildCreativeModeTabContentsEvent event) {
-        var tabKey = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(event.getTab());
-        if (tabKey.isPresent() && CreativeModeTabs.TOOLS_AND_UTILITIES.equals(tabKey.get())) {
-            event.accept(SLIDE_ITEM.get());
-            event.accept(PROJECTOR_ITEM.get());
-            event.accept(PICTURE_ITEM.get());
-        }
-    }
-
 }
