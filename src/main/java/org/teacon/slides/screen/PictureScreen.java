@@ -2,6 +2,7 @@ package org.teacon.slides.screen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -33,6 +34,8 @@ public class PictureScreen extends Screen {
     private final EditBox OffsetYInput;
     private final EditBox OffsetZInput;
 
+    private final CycleButton<PictureBlockEntity.SizeMode> SizeMode;
+
     private final BlockPos blockPos;
 
     public PictureScreen(PictureBlockEntity pictureBlockEntity) {
@@ -41,7 +44,7 @@ public class PictureScreen extends Screen {
         this.font = Minecraft.getInstance().font;
         int i = Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2;
         int j = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2;
-        this.urlInput = new EditBox(font, i - 75, j - 55, 150, 15, URL_TEXT);
+        this.urlInput = new EditBox(font, i - 75, j - 55, 175, 15, URL_TEXT);
         this.urlInput.setMaxLength(URL_MAX_LENGTH);
         this.urlInput.setValue(pictureBlockEntity.getUrl());
 
@@ -60,6 +63,12 @@ public class PictureScreen extends Screen {
         this.OffsetYInput.setValue(String.valueOf(pictureBlockEntity.getDeltaY()));
         this.OffsetZInput = new EditBox(font, i + 25, j + 35, 40, 15, OFFSET_Z_TEXT);
         this.OffsetZInput.setValue(String.valueOf(pictureBlockEntity.getDeltaZ()));
+
+        this.SizeMode = CycleButton.builder(PictureBlockEntity.SizeMode::getSymbol)
+                .displayOnlyValue()
+                .withValues(PictureBlockEntity.SizeMode.values())
+                .withInitialValue(PictureBlockEntity.SizeMode.values()[pictureBlockEntity.getSizeMode()])
+                .create(i + 80, j + 5, 40,20, Component.literal("size"));
     }
 
     @Override
@@ -72,6 +81,7 @@ public class PictureScreen extends Screen {
         this.addRenderableWidget(this.OffsetXInput);
         this.addRenderableWidget(this.OffsetYInput);
         this.addRenderableWidget(this.OffsetZInput);
+        this.addRenderableWidget(this.SizeMode);
     }
 
     @Override
@@ -79,7 +89,7 @@ public class PictureScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         int i = Minecraft.getInstance().getWindow().getGuiScaledWidth() / 2;
         int j = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 2;
-        guiGraphics.fill(i - 100, j - 75, i + 100, j + 75, BACKGROUND_COLOR);
+        guiGraphics.fill(i - 100, j - 75, i + 125, j + 75, -10, BACKGROUND_COLOR);
         try {
             int color = Integer.parseUnsignedInt(this.ColorInput.getValue(), 16);
             guiGraphics.fill(i + 10, j - 25, i + 35, j - 10, color);
@@ -102,7 +112,8 @@ public class PictureScreen extends Screen {
             float offsetX = parseFloat(this.OffsetXInput.getValue());
             float offsetY = parseFloat(this.OffsetYInput.getValue());
             float offsetZ = parseFloat(this.OffsetZInput.getValue());
-            PictureUpdatePacket packet = new PictureUpdatePacket(urlInput, color, width, height, new PictureUpdatePacket.Vec3f(offsetX, offsetY, offsetZ), blockPos);
+            PictureBlockEntity.SizeMode sizeModeValue = this.SizeMode.getValue();
+            PictureUpdatePacket packet = new PictureUpdatePacket(urlInput, color, width, height, new PictureUpdatePacket.Vec3f(offsetX, offsetY, offsetZ), blockPos, sizeModeValue);
             PacketDistributor.sendToServer(packet);
         } catch (IllegalArgumentException argumentException) {
             LOGGER.error(argumentException);

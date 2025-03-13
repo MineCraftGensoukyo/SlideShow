@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.teacon.slides.utils.ClientMethod;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
@@ -46,9 +45,9 @@ public final class PictureBlock extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return defaultBlockState()
-                .setValue(FACING, context.getNearestLookingDirection().getOpposite())
-                .setValue(ROTATION, ProjectorBlock.InternalRotation.NONE)
-                .setValue(SHAPE, true);
+                .setValue(FACING, context.getNearestLookingDirection())
+                .setValue(ROTATION, ProjectorBlock.InternalRotation.HORIZONTAL_FLIPPED)
+                .setValue(SHAPE, false);
     }
 
     @Override

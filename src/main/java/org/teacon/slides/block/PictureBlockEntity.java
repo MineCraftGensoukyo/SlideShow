@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,16 +20,15 @@ import org.joml.Matrix4f;
 import org.teacon.slides.SlideShow;
 import org.teacon.slides.registry.BlockEntityRegistry;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class PictureBlockEntity extends BlockEntity {
+public final class PictureBlockEntity extends BlockEntity {
 
-    float deltaX;
-    float deltaY;
-    float deltaZ;
+    float deltaX = 0;
+    float deltaY = 0;
+    float deltaZ = 0;
 
     float sizeX = 1;
     float sizeY = 1;
@@ -38,6 +38,8 @@ public class PictureBlockEntity extends BlockEntity {
 
     String url = Strings.EMPTY;
     Either<UUID, String> mImageLocation = Either.left(UUID.randomUUID());
+
+    byte sizeMode;
 
     public PictureBlockEntity(BlockPos pos, BlockState blockState) {
         super(BlockEntityRegistry.PICTURE_BLOCK_ENTITY.get(), pos, blockState);
@@ -62,7 +64,7 @@ public class PictureBlockEntity extends BlockEntity {
         this.doubleSided = tag.getBoolean("doubleSided");
         this.color = tag.getInt("color");
         this.url = tag.getString("url");
-
+        this.sizeMode = tag.getByte("sizeMode");
 
         if (tag.hasUUID("ImageLocation")) {
             mImageLocation = Either.left(tag.getUUID("ImageLocation"));
@@ -84,13 +86,13 @@ public class PictureBlockEntity extends BlockEntity {
         tag.putBoolean("doubleSided", doubleSided);
         tag.putInt("color", color);
         tag.putString("url", url);
+        tag.putByte("sizeMode", sizeMode);
 
         tag.put("ImageLocation", mImageLocation.map(NbtUtils::createUUID, StringTag::valueOf));
     }
 
     @Override
-    @Nullable
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+    public @NotNull ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
@@ -140,6 +142,14 @@ public class PictureBlockEntity extends BlockEntity {
         // matrix 6: translation for slide
         pose.translate(-5E5F, 0F, 5E5F - 1E6F);
         // matrix 7: offset for slide
-        pose.translate(this.deltaX * 1e6F,this.deltaY * 1e6F, this.deltaZ * 1e6F);
+        pose.translate(this.deltaX * 1e6F, this.deltaY * 1e6F, this.deltaZ * 1e6F);
+    }
+
+    public enum SizeMode {
+        manual,auto;
+
+        public Component getSymbol(){
+            return Component.translatable("gui.slide_show." + name().toLowerCase());
+        }
     }
 }

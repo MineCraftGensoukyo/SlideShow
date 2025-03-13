@@ -81,5 +81,11 @@
     "gui.slide_show.section.container_hint_2": "Below are the slides already been projected, sorted by natural order",
     "gui.slide_show.section.container_hint_3": "Redstone signals can be used for controlling",
 
+    "gui.slide_show.auto": "Auto",
+    "gui.slide_show.manual": "Manual",
+    "gui.slide_show.left": "Left",
+    "gui.slide_show.center": "Center",
+    "gui.slide_show.right": "Right",
+
     "gui.slide_show.picture": "Picture"
 }

@@ -11,10 +11,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.teacon.slides.ModRegistries;
 import org.teacon.slides.SlideShow;
+import org.teacon.slides.block.PictureBlockEntity;
 import org.teacon.slides.block.ProjectorBlockEntity;
 import org.teacon.slides.url.ProjectorURLSavedData;
 
@@ -71,9 +73,15 @@ public final class SlideURLRequestPacket implements CustomPacketPayload {
                 var imageLocations = new LinkedHashSet<UUID>(this.requestedPosSet.size());
                 for (var pos : this.requestedPosSet) {
                     // prevent remote chunk loading
-                    if (level.isLoaded(pos) && level.getBlockEntity(pos) instanceof ProjectorBlockEntity tile) {
-                        tile.getNextCurrentEntries().getLeft().ifPresent(entry -> imageLocations.add(entry.id()));
-                        tile.getNextCurrentEntries().getRight().ifPresent(entry -> imageLocations.add(entry.id()));
+                    if (level.isLoaded(pos)) {
+                        BlockEntity blockEntity = level.getBlockEntity(pos);
+                        if (blockEntity instanceof ProjectorBlockEntity tile) {
+                            tile.getNextCurrentEntries().getLeft().ifPresent(entry -> imageLocations.add(entry.id()));
+                            tile.getNextCurrentEntries().getRight().ifPresent(entry -> imageLocations.add(entry.id()));
+                        }
+                        if (blockEntity instanceof PictureBlockEntity tile) {
+                            imageLocations.add(tile.getImageLocation());
+                        }
                     }
                 }
                 for (var slotId: this.requestedSlotIdList) {
