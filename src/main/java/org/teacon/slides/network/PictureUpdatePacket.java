@@ -19,10 +19,10 @@ import org.teacon.slides.url.ProjectorURL;
 import org.teacon.slides.url.ProjectorURLSavedData;
 import org.teacon.slides.utils.StreamCodecUtil;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public record PictureUpdatePacket(String url, int color, float width, float height, Vec3f vec3, BlockPos blockPos, PictureBlockEntity.SizeMode sizeMode) implements CustomPacketPayload {
+public record PictureUpdatePacket(String url, int color, float width, float height, Vec3f vec3, BlockPos blockPos,
+                                  PictureBlockEntity.SizeMode sizeMode) implements CustomPacketPayload {
     public static final Type<PictureUpdatePacket> TYPE = new Type<>(SlideShow.id("picture_update"));
 
     public static final StreamCodec<ByteBuf, Vec3f> VEC3_CODEC = StreamCodec.composite(
@@ -67,8 +67,8 @@ public record PictureUpdatePacket(String url, int color, float width, float heig
                 if (blockEntity instanceof PictureBlockEntity pictureBlock) {
                     ProjectorURLSavedData savedData = ProjectorURLSavedData.get(serverPlayer.server);
                     ProjectorURL projectorURL = new ProjectorURL(this.url);
-                    Optional<UUID> idByUrl = savedData.getIdByUrl(projectorURL);
-                    idByUrl.ifPresent(pictureBlock::setImageLocation);
+                    UUID idByUrl = savedData.getOrCreateIdByItem(projectorURL, player);
+                    pictureBlock.setImageLocation(idByUrl);
                     pictureBlock.setColor(color);
                     pictureBlock.setSizeX(width);
                     pictureBlock.setSizeY(height);
@@ -78,12 +78,13 @@ public record PictureUpdatePacket(String url, int color, float width, float heig
                     pictureBlock.setUrl(url);
                     pictureBlock.setSizeMode((byte) sizeMode.ordinal());
                     pictureBlock.setChanged();
-                    level.sendBlockUpdated(blockPos,blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
+                    level.sendBlockUpdated(blockPos, blockEntity.getBlockState(), blockEntity.getBlockState(), 3);
                 }
 
             }
         });
     }
 
-    public record Vec3f(float x, float y, float z){}
+    public record Vec3f(float x, float y, float z) {
+    }
 }
