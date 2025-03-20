@@ -33,7 +33,7 @@ public final class PictureBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState pState, Level level, BlockPos blockPos, Player player, BlockHitResult pHitResult) {
-        if (level.isClientSide()) {
+        if (level.isClientSide() && player.isCreative()) {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
             if (blockEntity instanceof PictureBlockEntity pictureBlockEntity) {
                 ClientMethod.openPictureScreen(pictureBlockEntity);

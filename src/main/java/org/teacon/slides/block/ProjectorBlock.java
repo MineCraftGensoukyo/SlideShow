@@ -1,8 +1,6 @@
 package org.teacon.slides.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.FieldsAreNonnullByDefault;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -33,7 +31,6 @@ import org.joml.Vector4d;
 import org.teacon.slides.inventory.ProjectorContainerMenu;
 import org.teacon.slides.registry.BlockEntityRegistry;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
@@ -42,9 +39,6 @@ import java.util.function.IntFunction;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-@FieldsAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public final class ProjectorBlock extends BaseEntityBlock {
 
     public static final MapCodec<ProjectorBlock> CODEC = simpleCodec((properties) -> new ProjectorBlock());
